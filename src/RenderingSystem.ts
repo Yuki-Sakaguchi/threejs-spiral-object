@@ -48,7 +48,7 @@ class RenderingSystem {
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(0x333333);
+    this.renderer.setClearColor(0x152047);
     this.renderer.setPixelRatio(devicePixelRatio);
 
     const y = SPIRAL_LOOP * SPIRAL_OFFSET_Y * (SPIRAL_SPLIT / 2); // 螺旋の真ん中の位置を取得
@@ -58,8 +58,8 @@ class RenderingSystem {
     this.camera.updateProjectionMatrix(); // 変更を反映させる
 
     // 床のグリッド
-    const grid = new GridHelper(100, 100);
-    this.scene.add(grid);
+    // const grid = new GridHelper(100, 100);
+    // this.scene.add(grid);
 
     // ライト
     const directionalLight = new DirectionalLight(0xffffff);
