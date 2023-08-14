@@ -1,3 +1,6 @@
+/**
+ * ポインター操作クラス
+ */
 export default class PointerState {
   down = false; // ボタンが推されているかどうか
   click = false; // クリックされたかどうか

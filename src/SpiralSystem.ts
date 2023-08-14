@@ -2,7 +2,6 @@ import SpiralItem from "./SpiralItem";
 import {
   AUTO_GLOBAL_ROT_SPEED,
   CAMERA_DIST_DEFAULT,
-  CAMERA_DIST_ZOOM,
   ITEMS,
   SPIRAL_LOOP,
   SPIRAL_OFFSET_ANGLE_RAD,
@@ -12,6 +11,7 @@ import {
 import renderingSystem from "./RenderingSystem";
 import { Raycaster, Vector3 } from "three";
 import PointerState from "./PointerState";
+import WheelState from "./WheelState";
 
 /**
  * 螺旋システムクラス
@@ -22,6 +22,7 @@ class SpiralSystem {
   spiralYByScroll = 0;
   spiralVelocity = { rot: 0, y: 0 };
   pointerState = new PointerState();
+  wheelState = new WheelState();
   raycaster = new Raycaster();
 
   // フォーカス系の変数
@@ -66,8 +67,14 @@ class SpiralSystem {
   calcSpiralPositionAndRotation(delta: number) {
     if (this.pointerState.down) {
       // マウスが押されていたらマウスポインターの移動距離に合わせて速度を出して反映する
-      this.spiralVelocity.rot = this.pointerState.deltaPos.x * 0.08;
-      this.spiralVelocity.y = this.pointerState.deltaPos.y * 0.08 * -1; // 上下を反転するためにマイナスをかける
+      this.spiralVelocity.rot = this.pointerState.deltaPos.x * 0.008;
+      this.spiralVelocity.y = this.pointerState.deltaPos.y * 0.008 * -1; // 上下を反転するためにマイナスをかける
+      this.spiralRot += this.spiralVelocity.rot;
+      this.spiralYByScroll += this.spiralVelocity.y;
+    } else if (this.wheelState.wheelTimer) {
+      // ホイールでの操作
+      this.spiralVelocity.rot = this.wheelState.wheelDelta.x * 0.00008;
+      this.spiralVelocity.y = this.wheelState.wheelDelta.y * 0.000008 * -1; // 上下を反転するためにマイナスをかける
       this.spiralRot += this.spiralVelocity.rot;
       this.spiralYByScroll += this.spiralVelocity.y;
     } else {
